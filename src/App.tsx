@@ -27,7 +27,6 @@ function App() {
 	};
 
 	const _pagination = async () => {
-    console.info("pagination scroll", page)
 		const {
       data: { hits },
 		} = await GetNews(topic, page);
@@ -52,13 +51,10 @@ function App() {
 		_isFav(id) ? _removeToFav(id) : _addToFav(id);
 
 	const _handleTopic = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-		setTopic(event.target.value);
+    setPage(1)
+    setTopic(event.target.value);
+    _getNews(event.target.value, 0)
 	};
-
-	useEffect(() => {
-		_getNews(topic, page);
-    console.info('im executing')
-	}, [topic]);
 
 	const _handleTab = (tab: string) => setTab(tab);
 
