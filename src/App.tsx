@@ -1,148 +1,155 @@
-import { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import './App.css';
+import { useState } from 'react';
+/* STYLES */
+import styles from './App.module.css';
+
+/* IMPORTS FROM EXTERNAL LIBRARIES */
+import { FaAngular, FaVuejs, FaReact } from 'react-icons/fa';
 
 /* SERVICE */
 import { GetNews } from './services/News.service';
 
 /* INTERFACES */
 import { Hit } from './interfaces/INews';
+import { ITopic } from './interfaces/ITopics';
 
 /* ENUMS */
 import { Tab } from './constants/Enums';
 
+/* UI COMPONENTS */
+import Header from './components/Header/Header';
+import Tabs from './components/Tabs/Tabs';
+import SelectTopic from './components/SelectTopic/SelectTopic';
+import All from './components/Tabs/All';
+import Fav from './components/Tabs/Fav';
+
+/* UTILS */
+import { getFromLocalStorage, setToLocalStorage } from './helpers/localStorage.utils';
+
 function App() {
+	// functions to get favorites and news filter topic from localStorage
+	const favsFromLocalStorage = getFromLocalStorage("favs")
+	const topicFromLocalStorage = getFromLocalStorage("topic")
+
+	// setStates to handle relevant data
 	const [news, setNews] = useState<Hit[]>([]);
-	const [fav, setFav] = useState<Hit[]>([]);
-	const [topic, setTopic] = useState<string>();
-	const topics: string[] = ['angular', 'react', 'vue'];
+	const [fav, setFav] = useState<Hit[]>(favsFromLocalStorage ?? []);
+	const [topic, setTopic] = useState<string>(topicFromLocalStorage ?? "angular");
 	const [page, setPage] = useState<number>(0);
 	const [tab, setTab] = useState<string>(Tab.ALL);
 
+	// array of topics to fill the options in selectTopic with its how icons
+	const topics: ITopic[] = [
+		{
+			value: 'angular',
+			label: (
+				<div className={styles.option}>
+					<FaAngular size={24} color='#de3a33' />
+					<span className={styles.optionLabel}>Angular</span>
+				</div>
+			),
+		},
+		{
+			value: 'react',
+			label: (
+				<div className={styles.option}>
+					<FaReact size={24} color='#61dafb' />
+					<span className={styles.optionLabel}>React</span>
+				</div>
+			),
+		},
+		{
+			value: 'vue',
+			label: (
+				<div className={styles.option}>
+					<FaVuejs size={24} color='#42b883' />
+					<span className={styles.optionLabel}>Vue</span>
+				</div>
+			),
+		},
+	];
+
+	// remove all the objects that not contains [story_title, story_url, created_at]
+	const _removeInvalidNews = (hits: Hit[]): Hit[] =>
+		hits.filter(
+			(hit: Hit) => hit.story_title && hit.story_url && hit.created_at,
+	);
+
+	// call to service to fill news
 	const _getNews = async (topic?: string, page?: number) => {
 		const {
 			data: { hits },
 		} = await GetNews(topic, page);
-		setNews(hits);
+
+		const hitsValids = _removeInvalidNews(hits);
+
+		setNews(hitsValids);
 	};
 
+	// handle the infiniteScrolling/pagination
 	const _pagination = async () => {
 		const {
-      data: { hits },
+			data: { hits },
 		} = await GetNews(topic, page);
+
 		const currentNews = [...news];
-		setNews([...currentNews, ...hits]);
-    setPage(page+1)
+		const hitsValids = _removeInvalidNews(hits);
+		setNews([...currentNews, ...hitsValids]);
+		setPage(page + 1);
 	};
 
+	//from a id add a to the favorites array
 	const _addToFav = (id: string) => {
-		const favoriteArray = [...fav];
-		const newFavorite = news!.find((item) => item.objectID === id);
-		favoriteArray.push(newFavorite as Hit);
-		setFav(favoriteArray);
+			const favoriteArray = [...fav];
+			const newFavorite = news!.find((item) => item.objectID === id);
+			favoriteArray.push(newFavorite as Hit);
+			setFav(favoriteArray);
+			setToLocalStorage("favs", favoriteArray)
 	};
 
+	// check if an objects belongs to favorite by its id
 	const _isFav = (id: string) => fav.some((item) => item.objectID === id);
 
-	const _removeToFav = (id: string) =>
-		setFav(fav.filter((item) => item.objectID !== id));
+	// remove a new from favorite
+	const _removeToFav = (id: string) => {
+		const favs = fav.filter((item) => item.objectID !== id) 
+		setFav(favs);
+		setToLocalStorage("favs", favs)
+	}
 
-	const _handleLikes = (id: string) =>
-		_isFav(id) ? _removeToFav(id) : _addToFav(id);
-
-	const _handleTopic = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    setPage(1)
-    setTopic(event.target.value);
-    _getNews(event.target.value, 0)
-	};
-
-	const _handleTab = (tab: string) => setTab(tab);
-
-	const SelectTopic = () => (
-		<select value={topic} onChange={_handleTopic}>
-			{topics.map((topic: string) => (
-				<option value={topic}>{topic}</option>
-			))}
-		</select>
-	);
-
-	const Tabs = () => {
-		return (
-			<div>
-				<span onClick={() => _handleTab(Tab.ALL)}>All</span>
-				<span onClick={() => _handleTab(Tab.FAV)}>Fav</span>
-			</div>
-		);
-	};
-
-	const All = () => (
-		<>
-			<h3>All</h3>
-			<InfiniteScroll
-				pageStart={0}
-				loadMore={() => _pagination()}
-				hasMore={true || false}
-				loader={
-					<div className='loader' key={0}>
-						Loading ...
-					</div>
-				}>
-				<ul>
-					{news?.map((item: Hit, idx: number) => (
-						<li key={idx}>
-							<a href={item.story_url} target='_blank'>
-								{item.author}
-							</a>
-							<button onClick={() => _handleLikes(item.objectID)}>
-								{_isFav(item.objectID) ? 'Remove fav' : 'add fav'}
-							</button>
-						</li>
-					))}
-				</ul>
-			</InfiniteScroll>
-		</>
-	);
-
-	const Fav = () => (
-		<>
-			<h3>Favorites</h3>
-			<ul>
-				{fav?.map((item: Hit, idx: number) => (
-					<li key={idx}>
-						<a href={item.story_url} target='_blank'>
-							{item.author}
-						</a>
-						<button onClick={() => _addToFav(item.objectID)}>add fav</button>
-					</li>
-				))}
-			</ul>
-		</>
-	);
+	// if a topic is in favorites its removed and if it doesn't is added
+	const _handleLikes = (id: string) => _isFav(id) ? _removeToFav(id) : _addToFav(id);
 
 	return (
-		<div className='App'>
-			<header>
-				<h1
-					style={{
-						width: '208px',
-						height: '28px',
-						fontFamily: 'Libre Baskerville',
-						fontSize: '28px',
-						fontWeight: 'normal',
-						fontStyle: 'normal',
-						lineHeight: 1,
-						letterSpacing: 'normal',
-						color: '#3b3b3b',
-					}}>
-					Hacker News
-				</h1>
-			</header>
-			<Tabs />
-			<SelectTopic />
-			<hr />
-			{tab === Tab.ALL && <All />}
-			{tab === Tab.FAV && <Fav />}
-		</div>
+		<>
+			<Header title='Hacker News' />
+
+			<Tabs tab={tab} setTab={setTab} />
+
+			<div className={styles.selectContainer}>
+				<SelectTopic
+					topics={topics}
+					topic={topic}
+					setTopic={setTopic}
+					getNews={_getNews}
+					setPage={setPage}
+				/>
+			</div>
+
+			<main className={styles.container}>
+				{tab === Tab.ALL && (
+					<All
+						news={news}
+						pagination={_pagination}
+						handleLikes={_handleLikes}
+						isFavorite={_isFav}
+					/>
+				)}
+
+				{tab === Tab.FAV && (
+					<Fav favs={fav} handleLikes={_handleLikes} isFavorite={_isFav} />
+				)}
+			</main>
+		</>
 	);
 }
 
