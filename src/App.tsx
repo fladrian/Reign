@@ -22,13 +22,16 @@ import SelectTopic from './components/SelectTopic/SelectTopic';
 import All from './components/Tabs/All';
 import Fav from './components/Tabs/Fav';
 
-/* UTILS */
-import { getFromLocalStorage, setToLocalStorage } from './helpers/localStorage.utils';
+/* HOOKS */
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 function App() {
-	// functions to get favorites and news filter topic from localStorage
-	const favsFromLocalStorage = getFromLocalStorage("favs")
-	const topicFromLocalStorage = getFromLocalStorage("topic")
+
+	// useLocalStorage hook if recieve one parameter is to get data previusly set it from localStorage
+	// needs to be a string. If recieve two parameter is to set new data to ocalStorage, first parameter is key
+	// and second is the item to storage.
+	const favsFromLocalStorage = useLocalStorage("favs")
+	const topicFromLocalStorage = useLocalStorage("topic")
 
 	// setStates to handle relevant data
 	const [news, setNews] = useState<Hit[]>([]);
@@ -103,14 +106,14 @@ function App() {
 			const newFavorite = news!.find((item) => item.objectID === id);
 			favoriteArray.push(newFavorite as Hit);
 			setFav(favoriteArray);
-			setToLocalStorage("favs", favoriteArray)
+			useLocalStorage("favs", favoriteArray)
 	};
 	
 	// remove a new from favorite
 	const _removeToFav = (id: string) => {
 		const favs = fav.filter((item) => item.objectID !== id) 
 		setFav(favs);
-		setToLocalStorage("favs", favs)
+		useLocalStorage("favs", favs)
 	}
 
 	// check if an objects belongs to favorite by its id

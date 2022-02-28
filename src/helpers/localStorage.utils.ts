@@ -4,6 +4,5 @@ export const setToLocalStorage = (name:string, value:any) => {
 
 export const getFromLocalStorage = (name:string) => {
 	const item = localStorage.getItem(name)
-	const getValue = JSON.parse(item as string)
-	return getValue
+	return JSON.parse(item as string)
 }

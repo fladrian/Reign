@@ -9,8 +9,8 @@ import Select from 'react-select';
 /* INTERFACSE */
 import { ITopic } from '../../interfaces/ITopics';
 
-/* UTILS */
-import {setToLocalStorage} from '../../helpers/localStorage.utils'
+/* HOOKS */
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface Props {
 	topics: ITopic[]
@@ -26,7 +26,7 @@ const SelectTopic: FC<Props> = ({setTopic, topic, topics, setPage, getNews}) => 
 		setPage(1)
     setTopic(event.value);
     getNews(event.value, 0)
-		setToLocalStorage("topic", event.value)
+		useLocalStorage("topic", event.value)
 	}
 	// Return the current topic from parent state
 	const _getCurrentTopic = (topicValue:string) => {
