@@ -34,12 +34,14 @@ const SelectTopic: FC<Props> = ({setTopic, topic, topics, setPage, getNews}) => 
 	}
 	
 	return (
-		<Select
-        defaultValue={_getCurrentTopic(topic)}
-        options={topics as any} // casting as any for typescript issues 
-        onChange={_handleTopic}
-				className={styles.select}
+		<section className={styles.selectContainer}>
+			<Select
+			defaultValue={_getCurrentTopic(topic)}
+					options={topics as any} // casting as any for typescript issues 
+					onChange={_handleTopic}
+					className={styles.select}
       />
+		</section>
 	)
 }
 export default SelectTopic

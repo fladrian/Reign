@@ -105,16 +105,16 @@ function App() {
 			setFav(favoriteArray);
 			setToLocalStorage("favs", favoriteArray)
 	};
-
-	// check if an objects belongs to favorite by its id
-	const _isFav = (id: string) => fav.some((item) => item.objectID === id);
-
+	
 	// remove a new from favorite
 	const _removeToFav = (id: string) => {
 		const favs = fav.filter((item) => item.objectID !== id) 
 		setFav(favs);
 		setToLocalStorage("favs", favs)
 	}
+
+	// check if an objects belongs to favorite by its id
+	const _isFav = (id: string) => fav.some((item) => item.objectID === id);
 
 	// if a topic is in favorites its removed and if it doesn't is added
 	const _handleLikes = (id: string) => _isFav(id) ? _removeToFav(id) : _addToFav(id);
@@ -125,15 +125,13 @@ function App() {
 
 			<Tabs tab={tab} setTab={setTab} />
 
-			<div className={styles.selectContainer}>
-				<SelectTopic
-					topics={topics}
-					topic={topic}
-					setTopic={setTopic}
-					getNews={_getNews}
-					setPage={setPage}
-				/>
-			</div>
+			<SelectTopic
+				topics={topics}
+				topic={topic}
+				setTopic={setTopic}
+				getNews={_getNews}
+				setPage={setPage}
+			/>
 
 			<main className={styles.container}>
 				{tab === Tab.ALL && (
@@ -146,7 +144,10 @@ function App() {
 				)}
 
 				{tab === Tab.FAV && (
-					<Fav favs={fav} handleLikes={_handleLikes} isFavorite={_isFav} />
+					<Fav
+						favs={fav}
+						handleLikes={_handleLikes}
+						isFavorite={_isFav} />
 				)}
 			</main>
 		</>
