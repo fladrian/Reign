@@ -13,10 +13,10 @@
 
 .selectContainer {
 	display: flex;
-	padding: 0px 0px 20px 100px;
 	flex-grow: 1;
 	flex-shrink: 1;
 	align-items: center;
+	padding-bottom: 40px;
 }
 
 @media only screen and (max-width: 720px) {
@@ -31,7 +31,8 @@
 		justify-content: center;
 		flex-grow: 1;
 		flex-shrink: 1;
-		align-items: center
+		align-items: center;
+		padding-bottom: 40px;
 	}
 
 }

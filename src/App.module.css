@@ -11,12 +11,12 @@ body {
 }
 
 .container {
-	display: flex;
-	padding: 20px 100px;
-	flex-grow: 1;
+	/* display: flex; */
+	padding-inline: 100px;
+	/* flex-grow: 1;
 	flex-shrink: 1;
 	justify-content: center;
-	align-items: center;
+	align-items: center; */
 }
 
 .option {

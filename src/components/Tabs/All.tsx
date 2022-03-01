@@ -25,19 +25,20 @@ const All:FC<Props> = ({pagination, isFavorite, handleLikes, news}) => {
 
 	return (
 		<>
-		<InfiniteScroll
-			pageStart={0}
-			loadMore={() => pagination()}
-			hasMore={true || false}
-			loader={<div className={styles.loaderContainer} key={0}>
-			<Loader />
-		</div>}>
-				<CardList
-					news={news}
-					isFavorite={isFavorite}
-					handleLikes={handleLikes}/>
-		</InfiniteScroll>
-		
+			<InfiniteScroll
+				pageStart={0}
+				loadMore={() => pagination()}
+				hasMore={true || false}
+				loader={
+					<div className={styles.loaderContainer} key={0}>
+						<Loader />
+					</div>
+				}>
+					<CardList
+						news={news}
+						isFavorite={isFavorite}
+						handleLikes={handleLikes}/>
+			</InfiniteScroll>
 		</>
 	)
 }

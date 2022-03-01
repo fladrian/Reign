@@ -2,13 +2,9 @@ import {FC} from 'react'
 
 import styles from './Header.module.css'
 
-interface Props {
-	title: string
-}
-
-const Header: FC<Props> = ({title}) => (
+const Header: FC = () => (
 		<header className={styles.header}>
-			<h1>{title}</h1>
+			<img src="/src/hacker-news.png" alt="hacker news" />
 		</header>
 )
 

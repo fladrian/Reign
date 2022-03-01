@@ -21,6 +21,7 @@ import Tabs from './components/Tabs/Tabs';
 import SelectTopic from './components/SelectTopic/SelectTopic';
 import All from './components/Tabs/All';
 import Fav from './components/Tabs/Fav';
+import Spacer from './components/shared/Spacer';
 
 /* HOOKS */
 import { useLocalStorage } from './hooks/useLocalStorage';
@@ -124,33 +125,37 @@ const App = () => {
 
 	return (
 		<>
-			<Header title='Hacker News' />
+			<Header />
 
 			<Tabs tab={tab} setTab={setTab} />
 
-			<SelectTopic
-				topics={topics}
-				topic={topic}
-				setTopic={setTopic}
-				getNews={_getNews}
-				setPage={setPage}
-			/>
-
 			<main className={styles.container}>
 				{tab === Tab.ALL && (
-					<All
-						news={news}
-						pagination={_pagination}
-						handleLikes={_handleLikes}
-						isFavorite={_isFav}
-					/>
+					<>
+						<SelectTopic
+							topics={topics}
+							topic={topic}
+							setTopic={setTopic}
+							getNews={_getNews}
+							setPage={setPage}
+						/>
+						<All
+							news={news}
+							pagination={_pagination}
+							handleLikes={_handleLikes}
+							isFavorite={_isFav}
+						/>
+					</>
 				)}
 
 				{tab === Tab.FAV && (
-					<Fav
-						favs={fav}
-						handleLikes={_handleLikes}
-						isFavorite={_isFav} />
+					<>
+						<Spacer />
+						<Fav
+							favs={fav}
+							handleLikes={_handleLikes}
+							isFavorite={_isFav} />
+					</>
 				)}
 			</main>
 		</>
