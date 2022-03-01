@@ -46,4 +46,5 @@ const Card: FC<Props> = ({hit, handleLikes, isFavorite}) => {
 		</article>
 	)
 }
+
 export default Card

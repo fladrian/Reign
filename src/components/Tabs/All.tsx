@@ -18,7 +18,6 @@ interface Props {
 	isFavorite: (id:string) => boolean
 	handleLikes: (id:string) => MouseEventHandler<HTMLDivElement> | undefined | void
 	news: Hit[]
-
 }
 
 const All:FC<Props> = ({pagination, isFavorite, handleLikes, news}) => {
@@ -42,4 +41,5 @@ const All:FC<Props> = ({pagination, isFavorite, handleLikes, news}) => {
 		</>
 	)
 }
+
 export default All

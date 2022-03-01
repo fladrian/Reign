@@ -47,4 +47,5 @@ const SelectTopic: FC<Props> = ({setTopic, topic, topics, setPage, getNews}) => 
 		</section>
 	)
 }
+
 export default SelectTopic

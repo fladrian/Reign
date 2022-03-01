@@ -20,6 +20,7 @@ const Fav: FC<Props> = ({ isFavorite, handleLikes, favs }) => {
 				isFavorite={isFavorite}
 				handleLikes={handleLikes} />
 		</>
-	);
-};
+	)
+}
+
 export default Fav;

@@ -12,9 +12,11 @@ interface Props {
 }
 
 const Tabs: React.FC<Props> = ({setTab, tab}) => {
+	
 	const _handleTab = (tab:string) => {
 		setTab(tab)
 	}
+
 	return (
 		<div className={styles.tabs}>
 				<span
@@ -27,4 +29,5 @@ const Tabs: React.FC<Props> = ({setTab, tab}) => {
 			</div>
 	)
 }
+
 export default Tabs
