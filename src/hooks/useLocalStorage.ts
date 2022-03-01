@@ -1,5 +1,5 @@
 /* UTILS */
-import { getFromLocalStorage, setToLocalStorage } from '../helpers/localStorage.utils';
+import { getFromLocalStorage, setToLocalStorage } from '../utils/localStorage.utils';
 
 export const useLocalStorage = (name:string, value?:any) => {
 
