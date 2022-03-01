@@ -27,8 +27,8 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 
 const App = () => {
 
-	// useLocalStorage hook if recieve one parameter is to get data previusly set it from localStorage
-	// needs to be a string. If recieve two parameter is to set new data to ocalStorage, first parameter is key
+	// useLocalStorage hook: if recieve one parameter is to get data previusly set it to localStorage
+	// needs to be a string. If recieve two parameter is to set new data to localStorage, first parameter is key
 	// and second is the item to storage.
 	const favsFromLocalStorage = useLocalStorage(LocalStorageItems.FAVS)
 	const topicFromLocalStorage = useLocalStorage(LocalStorageItems.TOPIC)
