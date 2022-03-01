@@ -25,7 +25,7 @@ import Fav from './components/Tabs/Fav';
 /* HOOKS */
 import { useLocalStorage } from './hooks/useLocalStorage';
 
-function App() {
+const App = () => {
 
 	// useLocalStorage hook if recieve one parameter is to get data previusly set it from localStorage
 	// needs to be a string. If recieve two parameter is to set new data to ocalStorage, first parameter is key
