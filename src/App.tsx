@@ -13,7 +13,7 @@ import { Hit } from './interfaces/INews';
 import { ITopic } from './interfaces/ITopics';
 
 /* ENUMS */
-import { Tab } from './constants/Enums';
+import { Tab, LocalStorageItems } from './constants/Enums';
 
 /* UI COMPONENTS */
 import Header from './components/Header/Header';
@@ -30,8 +30,8 @@ const App = () => {
 	// useLocalStorage hook if recieve one parameter is to get data previusly set it from localStorage
 	// needs to be a string. If recieve two parameter is to set new data to ocalStorage, first parameter is key
 	// and second is the item to storage.
-	const favsFromLocalStorage = useLocalStorage("favs")
-	const topicFromLocalStorage = useLocalStorage("topic")
+	const favsFromLocalStorage = useLocalStorage(LocalStorageItems.FAVS)
+	const topicFromLocalStorage = useLocalStorage(LocalStorageItems.TOPIC)
 
 	// setStates to handle relevant data
 	const [news, setNews] = useState<Hit[]>([]);

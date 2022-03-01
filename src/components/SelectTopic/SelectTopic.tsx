@@ -12,6 +12,9 @@ import { ITopic } from '../../interfaces/ITopics';
 /* HOOKS */
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
+/* ENUMS */
+import { LocalStorageItems } from '../../constants/Enums';
+
 interface Props {
 	topics: ITopic[]
 	topic: string
@@ -26,7 +29,7 @@ const SelectTopic: FC<Props> = ({setTopic, topic, topics, setPage, getNews}) => 
 		setPage(1)
     setTopic(event.value);
     getNews(event.value, 0)
-		useLocalStorage("topic", event.value)
+		useLocalStorage(LocalStorageItems.TOPIC, event.value)
 	}
 	// Return the current topic from parent state
 	const _getCurrentTopic = (topicValue:string) => {
