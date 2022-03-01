@@ -7,3 +7,9 @@ export enum LocalStorageItems {
 	FAVS = "favs",
 	TOPIC = "topic"
 }
+
+export enum Topics {
+	ANGULAR = "angular",
+	REACT = "react",
+	VUE = "vue"
+}

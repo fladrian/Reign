@@ -13,7 +13,7 @@ import { Hit } from './interfaces/INews';
 import { ITopic } from './interfaces/ITopics';
 
 /* ENUMS */
-import { Tab, LocalStorageItems } from './constants/Enums';
+import { Tab, LocalStorageItems, Topics } from './constants/Enums';
 
 /* UI COMPONENTS */
 import Header from './components/Header/Header';
@@ -36,36 +36,36 @@ const App = () => {
 	// setStates to handle relevant data
 	const [news, setNews] = useState<Hit[]>([]);
 	const [fav, setFav] = useState<Hit[]>(favsFromLocalStorage ?? []);
-	const [topic, setTopic] = useState<string>(topicFromLocalStorage ?? "angular");
+	const [topic, setTopic] = useState<string>(topicFromLocalStorage ?? Topics.ANGULAR);
 	const [page, setPage] = useState<number>(0);
 	const [tab, setTab] = useState<string>(Tab.ALL);
 
 	// array of topics to fill the options in selectTopic with its how icons
 	const topics: ITopic[] = [
 		{
-			value: 'angular',
+			value: Topics.ANGULAR,
 			label: (
 				<div className={styles.option}>
 					<FaAngular size={24} color='#de3a33' />
-					<span className={styles.optionLabel}>Angular</span>
+					<span className={styles.optionLabel}>{Topics.ANGULAR}</span>
 				</div>
 			),
 		},
 		{
-			value: 'react',
+			value: Topics.REACT,
 			label: (
 				<div className={styles.option}>
 					<FaReact size={24} color='#61dafb' />
-					<span className={styles.optionLabel}>React</span>
+					<span className={styles.optionLabel}>{Topics.REACT}</span>
 				</div>
 			),
 		},
 		{
-			value: 'vue',
+			value: Topics.VUE,
 			label: (
 				<div className={styles.option}>
 					<FaVuejs size={24} color='#42b883' />
-					<span className={styles.optionLabel}>Vue</span>
+					<span className={styles.optionLabel}>{Topics.VUE}</span>
 				</div>
 			),
 		},
