@@ -2,9 +2,10 @@ import { FC } from 'react'
 
 import styles from './Header.module.css'
 
+import logoHacker from '../../hacker-news.png'
 const Header: FC = () => (
 		<header className={styles.header}>
-			<img src="/src/hacker-news.png" alt="hacker news" />
+			<img src={logoHacker} alt="hacker news" />
 		</header>
 )
 
