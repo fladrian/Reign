@@ -8,6 +8,7 @@
 	font-size: 16px;
 	line-height: 1.57;
 	text-transform: capitalize;
+	cursor: pointer;
 }
 
 .selectContainer {
